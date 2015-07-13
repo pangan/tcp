@@ -16,6 +16,7 @@ def do_motor():
     if not exit_flag:
         threading.Thread(target = do_motor).start()
     
+    
 def parse_data(raw_data):
     m = re.search('\?(.+?) ', raw_data)
     if m:
@@ -31,7 +32,9 @@ def parse_data(raw_data):
         return None
 
 # Create a TCP/IP socket
+#sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+sock.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1 )
 # Bind the socket to the port
 server_address = ('0.0.0.0', 8080)
 print >>sys.stderr, 'starting up on %s port %s' % server_address
