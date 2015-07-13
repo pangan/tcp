@@ -31,6 +31,11 @@ def parse_data(raw_data):
     else:
         return None
 
+def resp_html():
+    html_file = open('template.html','r')
+    html = html_file.readlines()
+    return html
+
 # Create a TCP/IP socket
 #sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -49,15 +54,12 @@ while True:
     # Wait for a connection
     print >>sys.stderr, 'waiting for a connection'
     connection, client_address = sock.accept()
-
     print >>sys.stderr, 'connection from', client_address
 
-        # Receive the data in small chunks and retransmit it
     data = connection.recv(1024)
     data_dic = parse_data(data)
-    
-    
-    connection.sendall('Hello %s' %a)
+    for html_lines in resp_html():
+        connection.sendall(html_lines)
     connection.close()
     a += 1
     if data_dic:
