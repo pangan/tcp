@@ -1,7 +1,5 @@
-import socket
 import sys
 import threading
-import re
 import datetime 
 
 from webinterface import WebServer
