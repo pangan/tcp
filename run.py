@@ -21,13 +21,12 @@ def time_stamp():
     return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 
-webif = WebServer(port=8080,template='template.html')
+webif = WebServer(port=8080,template='template.html', debug=True)
 
 a=0
 do_motor()
 
 while True:
-    
 	    
     data_dic = webif.read()
     if data_dic:

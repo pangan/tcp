@@ -5,9 +5,10 @@ import re
 import datetime 
 
 class WebServer(object):
-	def __init__(self,port=8080, template='index.html'):
+	def __init__(self,port=8080, template='index.html', debug=False):
 		self.client = None
 		self.template = template
+		self.debug = debug
 		self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 		self.sock.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1 )
 		server_address = ('0.0.0.0', port)
@@ -35,17 +36,19 @@ class WebServer(object):
 	    return html
 
 
-
 	def read(self):
 		connection, self.client = self.sock.accept()
 		data = connection.recv(1024)
+		
 		data_dic = self.parse_data(data)
 		for html_lines in self.resp_html():
 			connection.sendall(html_lines)
 
 		connection.close()
+		if self.debug:
+			print >>sys.stderr, self.client ,data 
+			print >>sys.stderr, 'parsed data: ' ,data_dic 
 		return data_dic
-
 
 
 	def close(self):
