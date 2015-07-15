@@ -3,6 +3,11 @@ import threading
 import datetime 
 
 from webinterface import WebServer
+import signal
+
+def myhandler(signum, frame):
+    webif.close()
+    exit(1)
 
 
 global s
@@ -20,6 +25,7 @@ def do_motor():
 def time_stamp():
     return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
+signal.signal(signal.SIGINT, myhandler)
 
 webif = WebServer(port=8080,template='template.html', debug=True)
 
